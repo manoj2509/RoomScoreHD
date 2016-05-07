@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers'])
+angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ionic.service.core', 'ionic.service.push'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -21,7 +21,13 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   });
 })
-
+.config(['$ionicAppProvider', function($ionicAppProvider) {
+  $ionicAppProvider.identify({
+    app_id: '6c6701d1',
+    api_key: '3cd4690f5e27d8bded761480138742e90d94d0f9f4c1d683',
+    dev_push: true
+  });
+}])
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
@@ -49,25 +55,33 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       }
     })
-    .state('app.playlists', {
-      url: '/playlists',
+    .state('app.profile', {
+      url: '/profile',
       views: {
         'menuContent': {
-          templateUrl: 'templates/playlists.html',
-          controller: 'PlaylistsCtrl'
+          templateUrl: 'templates/profile.html',
+          controller: 'ProfileCtrl'
         }
       }
     })
-
-  .state('app.single', {
-    url: '/playlists/:playlistId',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/playlist.html',
-        controller: 'PlaylistCtrl'
-      }
-    }
-  });
+  .state('signup', {
+        url: '/signup',
+        views: {
+            '': {
+                templateUrl: 'templates/signup.html',
+                controller: 'SignUpCtrl as vm'
+            }
+        }
+    })
+    .state('login', {
+        url: '/login',
+        views: {
+            '': {
+                templateUrl: 'templates/login.html',
+                controller: 'LoginCtrl as login'
+            }
+        }
+    });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/playlists');
+  $urlRouterProvider.otherwise('/login');
 });
