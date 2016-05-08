@@ -56,12 +56,10 @@ angular.module('starter.controllers', [])
     { title: 'Cowbell', id: 6 }
   ];
 })
-.controller('ChoresListCtrl', function($scope, $state) {
-    $scope.chores = [
-        { description: 'Check the mailbox', dateDue: 1 },
-        { description: 'Clean the toilet', dateDue: 2 },
-        { description: 'Cook food', dateDue: 2 }
-    ];
+.controller('ChoresListCtrl', function($scope, $state, $http) {
+  $http.get('http://roomscore.tech:3001/api/tasks/').success(function(data) {
+      $scope.chores = data;
+    });
 
     $scope.gotoReview = function() {
         $state.go('app.reviewList');
