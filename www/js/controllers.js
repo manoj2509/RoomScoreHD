@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state, $ionicHistory) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -9,12 +9,21 @@ angular.module('starter.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
     $scope.gotoDash = function () {
+        $ionicHistory.nextViewOptions({
+            disableBack: true
+        });
         $state.go('app.dash');
     }
     $scope.gotoShop = function () {
-        $state.go('app.shop');
+        $ionicHistory.nextViewOptions({
+            disableBack: true
+        });
+        $state.go('app.shopList');
     }
     $scope.gotoChores = function () {
+        $ionicHistory.nextViewOptions({
+            disableBack: true
+        });
         $state.go('app.choresList');
     }
     $scope.gotoAbout = function () {
@@ -57,7 +66,7 @@ angular.module('starter.controllers', [])
   ];
 })
 .controller('ChoresListCtrl', function($scope, $state, $http) {
-  $http.get('http://roomscore.tech:3001/api/tasks/').success(function(data) {
+    $http.get('http://roomscore.tech:3001/api/tasks/').success(function(data) {
       $scope.chores = data;
     });
 
@@ -68,49 +77,58 @@ angular.module('starter.controllers', [])
 
 
   .controller('DashCtrl', function($scope, $state) {
-
-    $scope.gotoDash= function() {
-      $state.go('app.dash');
-    }
-  })
-.controller('reviewListCtrl', function($scope) {
-    $scope.reviews = [
-        { title: 'Check the mailbox', id: 1 },
-        { title: 'Clean the toilet', id: 2 },
-        { title: 'Cook food', id: 3 }
+    $scope.shopList = [
+        { description: 'Check the mailbox1', dateDue: 1 },
+        { description: 'Clean the toilet1', dateDue: 1 },
+        { description: 'Cook food2', dateDue: 2 }
     ];
-})
+  })
+//.controller('reviewListCtrl', function($scope) {
+//    $scope.reviews = [
+//        { title: 'Check the mailbox', id: 1 },
+//        { title: 'Clean the toilet', id: 2 },
+//        { title: 'Cook food', id: 3 }
+//    ];
+//})
 .controller('SignUpCtrl', function($scope, $state) {
     $scope.signData = {};
     $scope.doSignUp = function() {
         console.log('Sign Up');
         $state.go('login');
-
+        
     }
+})
+.controller('ShopListCtrl', function($scope, $state) {
+    console.log("In Controller");
+    $scope.shopList = [
+        { description: 'Check the mailbox', dateDue: 1 },
+        { description: 'Clean the toilet', dateDue: 2 },
+        { description: 'Cook food', dateDue: 2 }
+    ];
 })
 .controller('LoginCtrl', function($scope, $stateParams, $state, $http, $window) {
     $scope.loginData = {};
     // Perform the login action when the user submits the login form
-  $scope.doLogin = function() {
-
-    console.log('Doing login', $scope.loginData);
-
-    $http.post( "http://roomscore.tech:3001/api/members/login", {
-      email: $scope.loginData.username,
-      password: $scope.loginData.password,
-    } ).success(function(data) {
-      console.log(data);
-      $window.localStorage.setItem('loginToken',data.id);
-      $state.go('app.dash');
-    }).error(function(data) {
-      console.log("Error");
-      console.log(data);
-    });
+    if($scope.loginData.username && $scope.loginData.password) {
+        $scope.doLogin = function() {
+            console.log('Doing login', $scope.loginData);
+            $http.post( "http://roomscore.tech:3001/api/members/login", {
+                email: $scope.loginData.username,
+                password: $scope.loginData.password,
+            } ).success(function(data) {
+                console.log(data);
+                $window.localStorage.setItem('loginToken',data.id);
+                $state.go('app.dash');
+            }).error(function(data) {
+                console.log("Error");
+                console.log(data);
+            });
 
     // Simulate a login delay. Remove this and replace with your login
     // code if using a login system
 //    $timeout(function() {
 //      $scope.closeLogin();
 //    }, 1000);
-  };
+        };
+    }
 });

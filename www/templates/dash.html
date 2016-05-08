@@ -1,31 +1,26 @@
 <ion-view view-title="Dashboard">
   <ion-content>
     <ion-list class="list-inset" >
-      <div class="item item-divider">
-            Today Chores
+      <div class="item item-divider" style="line-height: 35px">
+            Chores of the Day
       </div>
-      <ion-item >
-        Chores list
+      <ion-item ng-repeat="values in chores | filter: {dateDue: '1'}">
+        {{values.description}}
         <ion-option-button class="button-balanced"><i class="ion-ios-checkmark-outline" style="font-size: 24px"></i></ion-option-button>
         <ion-option-button class="button-assertive"><i class="ion-ios-close-outline" style="font-size: 24px"></i></ion-option-button>
       </ion-item>
     </ion-list>
 
 
-    <ion-list class="list-inset" >
-      <div class="item item-divider">
-       Shopping
-      </div>
-      <ion-item class="item-button-right" >
-        Shopping List
-        <i class="button ion-checkmark-round"></i>
-
-
-      </ion-item>
-
-
-
-    </ion-list>
+    <ion-list class="list-inset">
+            <div class="item item-divider" style="line-height: 35px">
+                Shopping List for Today
+            </div>
+            <ion-item ng-repeat="values in shopList | filter: {dateDue: '1'}" >
+                <span style="display: inline-block; line-height: 47px;">{{values.description}}</span>
+                <i class="button button-balanced ion-checkmark-round" style="font-size: 24px; float: right;"></i>
+            </ion-item>
+        </ion-list>
 
 
 

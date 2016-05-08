@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ionic.service.core', 'ionic.service.push', 'angular.filter'])
 
-.run(function($ionicPlatform, $window) {
+.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -86,21 +86,21 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ionic.s
   .state('app.shopList', {
       url: '/shopList',
       views: {
-          '': {
+          'menuContent': {
               templateUrl: 'templates/shopList.html',
               controller: 'ShopListCtrl'
           }
       }
   })
-  .state('app.reviewList', {
-      url: '/reviewList',
-      views: {
-          '': {
-              templateUrl: 'templates/reviewList.html',
-              controller: 'reviewListCtrl'
-          }
-      }
-  })
+//  .state('app.reviewList', {
+//      url: '/reviewList',
+//      views: {
+//          '': {
+//              templateUrl: 'templates/reviewList.html',
+//              controller: 'reviewListCtrl'
+//          }
+//      }
+//  })
   .state('signup', {
         url: '/signUp',
         views: {
@@ -119,7 +119,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ionic.s
             }
         }
     });
-
+    
   var $window = $windowProvider.$get();
   var loginToken = $window.localStorage.getItem('loginToken');
 
