@@ -5,7 +5,6 @@
         <ion-tab title="Chores" icon-on="icon ion-android-list" icon-off="icon ion-android-list">
             <!-- Tab 1 content -->
             <ion-content>
-        <div style="height: 76px;" class="spacer"></div>
         <ion-list class="list-inset" ng-repeat="(key, values) in chores | groupBy: 'dateDue'">
             <div class="item item-divider">
                 {{key}}
