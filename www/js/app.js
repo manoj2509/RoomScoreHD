@@ -92,10 +92,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ionic.s
       }
   })
   .state('signup', {
-        url: '/signup',
+        url: '/signUp',
         views: {
             '': {
-                templateUrl: 'templates/signup.html',
+                templateUrl: 'templates/signUp.html',
                 controller: 'SignUpCtrl as vm'
             }
         }

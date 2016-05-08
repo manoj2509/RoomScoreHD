@@ -1,0 +1,48 @@
+<ion-view title="Signup" hide-nav-bar="true" id="page4">
+    <ion-content  style="padding:10%;background:rgba(32, 32, 32, 0.7);" >
+        <h1 class="title" style="text-align:center">Sign Up</h1>
+        <form  class="list" ng-submit="doSignUp()">
+            <ion-list>
+                <label class="item item-icon-left" style="background:none; border: none; border-bottom: 1px solid white; color: black">
+                    <i class="icon ion-person" style="color: black"></i>
+                    <input type="text" style="width:100%; background:none; color: white; font-size: 20px;" placeholder="Your Name" ng-model="signData.name">
+                </label>
+                <label class="item item-icon-left "  style="background:none;border: none; border-bottom: 1px solid white; color: black">
+                    <i class="icon ion-calendar" style="color: black"></i>
+                    <input type="date" style="background:none; width:100%; color: white;" ng-model="signData.dob">
+                </label>
+
+                <style>
+                    .radio-content {
+                        border: 1px solid white;
+                        border-radius: 5px;
+                    }
+                    .item-radio .item-content, .item-radio .item-content {
+                        background: none;
+                    }
+                    .item-radio input:checked + .radio-content .item-content {
+                        background: rgba(255, 255, 255, 0.5);
+                    }
+                </style>
+                <div style="height: 20px;" class="spacer"></div>
+                <div class="row" style="border: none;text-align:center; padding: 0%;margin: 0%" >
+                    <ion-list radio-group style="width: 100%; background: none;">
+                        <ion-radio checked="true" style="border: none; background: none; text-align: center;padding: 0;margin: 0; display: inline-block; color:white" ng-model="signData.choice" ng-value="'M'">Male</ion-radio>
+                        <ion-radio style="border: none; text-align-center; background:none; display: inline-block; color:white" ng-model="signData.choice" ng-value="'F'">Female</ion-radio>
+                    </ion-list>
+                </div>
+
+                <label class="item item-icon-left " style="background:none; border: none; border-bottom: 1px solid white; color: black" >
+                    <i class="icon ion-location"></i>
+                    <input style="background:none; width:100%;" type="password" placeholder="Your Password" ng-model="signData.location">
+                </label>
+                <label class="item item-icon-left "  style="background:none; border: none; border-bottom: 1px solid white; color: black">
+                    <i class="icon ion-email"></i>
+                    <input type="text" style="background:none; width:100%;" placeholder="E-mail" ng-model="loginData.username">
+                </label>
+            </ion-list>
+            <button id="signup-button2" type="submit" class="button button-stable  button-block ">Sign up</button>
+            <button id="signup-button3" class="button button-stable  button-block" ui-sref="login">Existing? Log In</button>
+        </form>
+    </ion-content>
+</ion-view>

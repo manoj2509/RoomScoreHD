@@ -74,7 +74,16 @@ angular.module('starter.controllers', [])
         { title: 'Cook food', id: 3 }
     ];
 })
+.controller('SignUpCtrl', function($scope, $state) {
+    $scope.signData = {};
+    $scope.doSignUp = function() {
+        console.log('Sign Up');
+        $state.go('login');
+        
+    }
+})
 .controller('LoginCtrl', function($scope, $stateParams, $state) {
+    $scope.loginData = {};
     // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
     console.log('Doing login', $scope.loginData);
