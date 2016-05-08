@@ -4,7 +4,7 @@
       <div class="item item-divider" style="line-height: 35px">
             Chores of the Day
       </div>
-      <ion-item ng-repeat="values in chores | filter: {dateDue: '1'}">
+      <ion-item ng-repeat="values in chores">
         {{values.description}}
         <ion-option-button class="button-balanced"><i class="ion-ios-checkmark-outline" style="font-size: 24px"></i></ion-option-button>
         <ion-option-button class="button-assertive"><i class="ion-ios-close-outline" style="font-size: 24px"></i></ion-option-button>

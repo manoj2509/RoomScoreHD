@@ -1,6 +1,9 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state, $ionicHistory, $window) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state, $ionicHistory, $window, md5) {
+
+  var email = $window.localStorage.getItem('currentUserEmail');
+  $scope.emailHash = md5.createHash(email);
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -57,7 +60,14 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('ProfileCtrl', function($scope) {
+.controller('ProfileCtrl', function($scope, md5, $window) {
+
+  var email = $window.localStorage.getItem('currentUserEmail');
+  $scope.emailHash = md5.createHash(email);
+
+  var tokens = email.split("@");
+  $scope.username = tokens[0];
+
   $scope.playlists = [
     { title: 'Reggae', id: 1 },
     { title: 'Chill', id: 2 },
@@ -86,7 +96,7 @@ angular.module('starter.controllers', [])
 })
 .controller('ChoresListCtrl', function($scope, $state, $http, $window) {
     var room = $window.localStorage.getItem('currentRooms');
-    $http.get('http://roomscore.tech:3001/api/tasks/?filter[where][room]='+room).success(function(data) {
+    $http.get('http://roomscore.tech:3001/api/tasks/?filter[where][room]='+room+'filter[where][type]=chores').success(function(data) {
       $scope.chores = data;
     });
 
@@ -96,12 +106,21 @@ angular.module('starter.controllers', [])
 })
 
 
-  .controller('DashCtrl', function($scope, $state) {
-    $scope.shopList = [
-        { description: 'Check the mailbox1', dateDue: 1 },
-        { description: 'Clean the toilet1', dateDue: 1 },
-        { description: 'Cook food2', dateDue: 2 }
-    ];
+  .controller('DashCtrl', function($scope, $state, $window, $http) {
+
+    var room = $window.localStorage.getItem('currentRooms');
+    $http.get('http://roomscore.tech:3001/api/tasks/?filter[where][room]='+room+'&filter[where][type]=chores').success(function(data) {
+      $scope.chores = data;
+    });
+
+    $scope.gotoReview = function() {
+      $state.go('app.reviewList');
+    }
+
+    $http.get('http://roomscore.tech:3001/api/tasks/?filter[where][room]='+room+'&filter[where][type]=shopping').success(function(data) {
+      $scope.shopList = data;
+    });
+
   })
 //.controller('reviewListCtrl', function($scope) {
 //    $scope.reviews = [
@@ -118,13 +137,14 @@ angular.module('starter.controllers', [])
 
     }
 })
-.controller('ShopListCtrl', function($scope, $state) {
+.controller('ShopListCtrl', function($scope, $state, $http, $window) {
     console.log("In Controller");
-    $scope.shopList = [
-        { description: 'Check the mailbox', dateDue: 1 },
-        { description: 'Clean the toilet', dateDue: 2 },
-        { description: 'Cook food', dateDue: 2 }
-    ];
+
+  var room = $window.localStorage.getItem('currentRooms');
+  $http.get('http://roomscore.tech:3001/api/tasks/?filter[where][room]='+room+'filter[where][type]=shopping').success(function(data) {
+    $scope.shopList = data;
+  });
+
 })
 .controller('LoginCtrl', function($scope, $stateParams, $state, $http, $window, md5, $ionicPlatform) {
     $scope.loginData = {};
@@ -161,13 +181,13 @@ angular.module('starter.controllers', [])
                       "android": {
                           "iconColor": "#343434"
                       }
-                  } 
+                  }
               });
 
               push.register(function(token) {
                   // Log out your device token (Save this!)
                   console.log("Got Token:",token.token);
-                  push.saveToken(token); 
+                  push.saveToken(token);
               });
 //              var push = pushNotification.init({
 //                  "android": {
@@ -207,7 +227,7 @@ angular.module('starter.controllers', [])
 //                    }).success(function (data, status, header,  config) {
 //                        console.log("Successfully registered");
 //                    }).error(function (e) {
-//                        
+//
 //                    });
 //                  } else {
 //                      console.log("Failed" + user_id);
@@ -220,7 +240,7 @@ angular.module('starter.controllers', [])
 //              });
 //              push.on('error', function(data) {
 //                  console.log("Error" + e);
-//                  
+//
 //              });
               $window.localStorage.setItem('currentRooms', data.roomID);
               $state.go('app.dash');
