@@ -1,7 +1,7 @@
 <ion-modal-view>
     <ion-view view-title="Shopping List">
         <ion-content>
-            
+
             <ion-list class="list-inset" ng-repeat="(key, values) in shopList | groupBy: 'dateDue'">
             <div class="item item-divider" style="line-height: 35px">
                 {{key}}
@@ -15,5 +15,8 @@
         <div class="bar bar-footer bar-balanced">
             <h1 class="title">RoomScore: 12</h1>
         </div>
+
+      <a style="position: absolute;bottom: 9%;right: 9%;border-radius:55%;" ui-sref="app.addChores"   class="button button-balanced  icon ion-android-add"></a>
+
     </ion-view>
 </ion-modal-view>
