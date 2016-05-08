@@ -67,8 +67,9 @@ angular.module('starter.controllers', [])
     { title: 'Cowbell', id: 6 }
   ];
 })
-.controller('ChoresListCtrl', function($scope, $state, $http) {
-    $http.get('http://roomscore.tech:3001/api/tasks/').success(function(data) {
+.controller('ChoresListCtrl', function($scope, $state, $http, $window) {
+    var room = $window.localStorage.getItem('currentRooms');
+    $http.get('http://roomscore.tech:3001/api/tasks/?filter[where][room]='+room).success(function(data) {
       $scope.chores = data;
     });
 
@@ -97,7 +98,7 @@ angular.module('starter.controllers', [])
     $scope.doSignUp = function() {
         console.log('Sign Up');
         $state.go('login');
-        
+
     }
 })
 .controller('ShopListCtrl', function($scope, $state) {
@@ -111,26 +112,41 @@ angular.module('starter.controllers', [])
 .controller('LoginCtrl', function($scope, $stateParams, $state, $http, $window) {
     $scope.loginData = {};
     // Perform the login action when the user submits the login form
-    if($scope.loginData.username && $scope.loginData.password) {
-        $scope.doLogin = function() {
-            console.log('Doing login', $scope.loginData);
-            $http.post( "http://roomscore.tech:3001/api/members/login", {
-                email: $scope.loginData.username,
-                password: $scope.loginData.password,
-            } ).success(function(data) {
-                console.log(data);
-                $window.localStorage.setItem('loginToken',data.id);
-                $state.go('app.dash');
-            }).error(function(data) {
-                console.log("Error");
-                console.log(data);
-            });
+    $scope.doLogin = function() {
+      if($scope.loginData.username && $scope.loginData.password) {
+        console.log('Doing login', $scope.loginData);
+        $http.post( "http://roomscore.tech:3001/api/members/login", {
+          email: $scope.loginData.username,
+          password: $scope.loginData.password,
+        } ).success(function(data) {
+          console.log(data);
+          $window.localStorage.setItem('loginToken',data.id);
+          $window.localStorage.setItem('currentUserID',data.userId);
 
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-//    $timeout(function() {
-//      $scope.closeLogin();
-//    }, 1000);
-        };
-    }
+          $http.get("http://roomscore.tech:3001/api/members/" + data.userId + "?access_token=" + data.id)
+            .success( function ( data ) {
+
+              $window.localStorage.setItem('currentRooms', data.roomID);
+              $state.go('app.dash');
+
+            } ).error( function ( data ) {
+
+            console.log("Error");
+            console.log(data);
+
+          } );
+
+        }).error(function(data) {
+          console.log("Error");
+          console.log(data);
+        });
+
+        // Simulate a login delay. Remove this and replace with your login
+        // code if using a login system
+        //    $timeout(function() {
+        //      $scope.closeLogin();
+        //    }, 1000);
+
+      }
+    };
 });
