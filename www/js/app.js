@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ionic.service.core', 'ionic.service.push'])
+angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ionic.service.core', 'ionic.service.push', 'angular.filter'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -64,6 +64,33 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ionic.s
         }
       }
     })
+  .state('app.choresList', {
+      url: '/choresList',
+      views: {
+          'menuContent': {
+              templateUrl: 'templates/choresList.html',
+              controller: 'ChoresListCtrl'
+          }
+      }
+  })
+  .state('app.shopList', {
+      url: '/shopList', 
+      views: {
+          '': {
+              templateUrl: 'templates/shopList.html',
+              controller: 'ShopListCtrl'
+          }
+      }
+  })
+  .state('app.reviewList', {
+      url: '/reviewList', 
+      views: {
+          '': {
+              templateUrl: 'templates/reviewList.html',
+              controller: 'reviewListCtrl'
+          }
+      }
+  })
   .state('signup', {
         url: '/signup',
         views: {
@@ -83,5 +110,5 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ionic.s
         }
     });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/login');
+  $urlRouterProvider.otherwise('/app/choresList');
 });

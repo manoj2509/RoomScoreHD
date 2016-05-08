@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -8,7 +8,21 @@ angular.module('starter.controllers', [])
   // listen for the $ionicView.enter event:
   //$scope.$on('$ionicView.enter', function(e) {
   //});
-
+    $scope.gotoDash = function () {
+        $state.go('app.dash');
+    }
+    $scope.gotoShop = function () {
+        $state.go('app.shop');
+    }
+    $scope.gotoChores = function () {
+        $state.go('app.choresList');
+    }
+    $scope.gotoAbout = function () {
+        $state.go('app.about');
+    }
+    $scope.signout = function () {
+        $state.go('login');
+    }
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -42,7 +56,24 @@ angular.module('starter.controllers', [])
     { title: 'Cowbell', id: 6 }
   ];
 })
-
+.controller('ChoresListCtrl', function($scope, $state) {
+    $scope.chores = [
+        { description: 'Check the mailbox', dateDue: 1 },
+        { description: 'Clean the toilet', dateDue: 2 },
+        { description: 'Cook food', dateDue: 2 }
+    ];
+    
+    $scope.gotoReview = function() {
+        $state.go('app.reviewList');
+    }
+})
+.controller('reviewListCtrl', function($scope) {
+    $scope.reviews = [
+        { title: 'Check the mailbox', id: 1 },
+        { title: 'Clean the toilet', id: 2 },
+        { title: 'Cook food', id: 3 }
+    ];
+})
 .controller('LoginCtrl', function($scope, $stateParams, $state) {
     // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
