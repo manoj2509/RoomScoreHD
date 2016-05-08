@@ -47,6 +47,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ionic.s
     }
   })
 
+
+    .state('app.addChores', {
+      url: '/addChores',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/addChores.html'
+        }
+      }
+    })
+
   .state('app.browse', {
       url: '/browse',
       views: {
@@ -119,7 +129,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ionic.s
             }
         }
     });
-    
+
   var $window = $windowProvider.$get();
   var loginToken = $window.localStorage.getItem('loginToken');
 
