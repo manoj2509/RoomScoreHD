@@ -85,15 +85,27 @@ angular.module('starter.controllers', [])
     $scope.doSignUp = function() {
         console.log('Sign Up');
         $state.go('login');
-        
+
     }
 })
-.controller('LoginCtrl', function($scope, $stateParams, $state) {
+.controller('LoginCtrl', function($scope, $stateParams, $state, $http, $window) {
     $scope.loginData = {};
     // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
+
     console.log('Doing login', $scope.loginData);
-      $state.go('app.profile');
+
+    $http.post( "http://roomscore.tech:3001/api/members/login", {
+      email: $scope.loginData.username,
+      password: $scope.loginData.password,
+    } ).success(function(data) {
+      console.log(data);
+      $window.localStorage.setItem('loginToken',data.id);
+      $state.go('app.dash');
+    }).error(function(data) {
+      console.log("Error");
+      console.log(data);
+    });
 
     // Simulate a login delay. Remove this and replace with your login
     // code if using a login system

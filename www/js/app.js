@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ionic.service.core', 'ionic.service.push', 'angular.filter'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $window) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -28,7 +28,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ionic.s
     dev_push: true
   });
 }])
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $windowProvider) {
   $stateProvider
 
     .state('app', {
@@ -119,6 +119,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ionic.s
             }
         }
     });
+
+  var $window = $windowProvider.$get();
+  var loginToken = $window.localStorage.getItem('loginToken');
+
+  console.log(loginToken);
+
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/choresList');
+  if ( !loginToken ) {
+    $urlRouterProvider.otherwise('/login');
+  } else {
+    $urlRouterProvider.otherwise('/app/dash');
+  }
 });
