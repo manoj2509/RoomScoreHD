@@ -43,7 +43,7 @@ angular.module('starter.controllers', [])
     $scope.modal.show();
   };
 
-  
+
 })
 
 .controller('ProfileCtrl', function($scope) {
@@ -62,11 +62,19 @@ angular.module('starter.controllers', [])
         { description: 'Clean the toilet', dateDue: 2 },
         { description: 'Cook food', dateDue: 2 }
     ];
-    
+
     $scope.gotoReview = function() {
         $state.go('app.reviewList');
     }
 })
+
+
+  .controller('DashCtrl', function($scope, $state) {
+
+    $scope.gotoDash= function() {
+      $state.go('app.dash');
+    }
+  })
 .controller('reviewListCtrl', function($scope) {
     $scope.reviews = [
         { title: 'Check the mailbox', id: 1 },

@@ -73,8 +73,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ionic.s
           }
       }
   })
+
+    .state('app.dash', {
+      url: '/dash',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/dash.html',
+          controller: 'DashCtrl'
+        }
+      }
+    })
   .state('app.shopList', {
-      url: '/shopList', 
+      url: '/shopList',
       views: {
           '': {
               templateUrl: 'templates/shopList.html',
@@ -83,7 +93,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ionic.s
       }
   })
   .state('app.reviewList', {
-      url: '/reviewList', 
+      url: '/reviewList',
       views: {
           '': {
               templateUrl: 'templates/reviewList.html',
