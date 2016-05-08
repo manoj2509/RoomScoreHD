@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state, $ionicHistory) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state, $ionicHistory, $window) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -30,6 +30,8 @@ angular.module('starter.controllers', [])
         $state.go('app.about');
     }
     $scope.signout = function () {
+        $window.localStorage.setItem('loginToken','');
+        $window.localStorage.setItem('currentUserID','');
         $state.go('login');
     }
   // Form data for the login modal
