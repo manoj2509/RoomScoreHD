@@ -3,32 +3,6 @@
 
 <ion-view title="Add Task" >
   <ion-content  style="top: 0">
-    <!--<form class="list">-->
-      <!--<label class="item item-input">-->
-        <!--<span class="input-label">Name</span>-->
-        <!--<input type="text" placeholder="">-->
-      <!--</label>-->
-      <!--<label class="item item-input">-->
-        <!--<span class="input-label">Location</span>-->
-        <!--<input type="text" placeholder="">-->
-      <!--</label>-->
-    <!--</form>-->
-    <!--<div class="spacer" style="width: 283px; height: 1px;"></div>-->
-    <!--<ion-list>-->
-      <!--<ion-item class="item-divider">Roommates Contributing</ion-item>-->
-
-        <!--<ion-checkbox ng-model="filter.blue">Mahendra</ion-checkbox>-->
-        <!--<ion-checkbox ng-model="filter.yellow">Manoj</ion-checkbox>-->
-        <!--<ion-checkbox ng-model="filter.pink">Rohit</ion-checkbox>-->
-
-
-
-    <!--</ion-list>-->
-    <!--<div class="spacer" style="width: 283px; height: 117px;"></div>-->
-    <!--<button id="addList-button14" class="button button-positive  button-block">Add</button>-->
-    <!--<button id="addList-button15" class="button button-positive  button-block">Cancel</button>-->
-
-
 
   <ion-tabs class="tabs-stable tabs-icon-top tabs-top" >
 
@@ -60,13 +34,9 @@
         </form>
 
         <ion-list>
-        <ion-item class="item-divider">Roommates Contributing</ion-item>
+          <ion-item class="item-divider">Roommates Contributing</ion-item>
 
-        <ion-checkbox ng-model="filter.blue">Mahendra</ion-checkbox>
-        <ion-checkbox ng-model="filter.yellow">Manoj</ion-checkbox>
-        <ion-checkbox ng-model="filter.pink">Rohit</ion-checkbox>
-
-
+          <ion-checkbox ng-repeat="user in members" ng-model="choreData.contributors">{{user}}</ion-checkbox>
 
         </ion-list>
         <div class="spacer" style="width: 283px; height: 70px;"></div>

@@ -67,6 +67,23 @@ angular.module('starter.controllers', [])
     { title: 'Cowbell', id: 6 }
   ];
 })
+.controller('AddChoresCtrl', function ( $scope, $http, $window ) {
+  $scope.choreData = {};
+
+  var room = $window.localStorage.getItem('currentRooms');
+  var token = $window.localStorage.getItem('loginToken');
+
+  $http.get("http://roomscore.tech:3001/api/members?access_token="+token).success( function ( data ) {
+    $scope.members = data;
+  } ).error( function ( data ) {
+    console.log("error")
+    console.log(data);
+  } );
+
+  $scope.createTask = function () {
+
+  }
+})
 .controller('ChoresListCtrl', function($scope, $state, $http, $window) {
     var room = $window.localStorage.getItem('currentRooms');
     $http.get('http://roomscore.tech:3001/api/tasks/?filter[where][room]='+room).success(function(data) {
@@ -109,15 +126,17 @@ angular.module('starter.controllers', [])
         { description: 'Cook food', dateDue: 2 }
     ];
 })
-.controller('LoginCtrl', function($scope, $stateParams, $state, $http, $window) {
+.controller('LoginCtrl', function($scope, $stateParams, $state, $http, $window, md5) {
     $scope.loginData = {};
     // Perform the login action when the user submits the login form
     $scope.doLogin = function() {
       if($scope.loginData.username && $scope.loginData.password) {
         console.log('Doing login', $scope.loginData);
+        $window.localStorage.setItem('currentUserEmail',$scope.loginData.username);
+        $window.localStorage.setItem('currentUserPwd', md5.createHash($scope.loginData.password));
         $http.post( "http://roomscore.tech:3001/api/members/login", {
           email: $scope.loginData.username,
-          password: $scope.loginData.password,
+          password: md5.createHash($scope.loginData.password),
         } ).success(function(data) {
           console.log(data);
           $window.localStorage.setItem('loginToken',data.id);
@@ -131,8 +150,8 @@ angular.module('starter.controllers', [])
 
             } ).error( function ( data ) {
 
-            console.log("Error");
-            console.log(data);
+              console.log("Error");
+              console.log(data);
 
           } );
 
