@@ -83,12 +83,12 @@ angular.module('starter.controllers', [])
   var room = $window.localStorage.getItem('currentRooms');
   var token = $window.localStorage.getItem('loginToken');
 
-  $http.get("http://roomscore.tech:3001/api/members?access_token="+token).success( function ( data ) {
-    $scope.members = data;
-  } ).error( function ( data ) {
-    console.log("error")
-    console.log(data);
-  } );
+  // $http.get("http://roomscore.tech:3001/api/members?access_token="+token).success( function ( data ) {
+  //   $scope.members = data;
+  // } ).error( function ( data ) {
+  //   console.log("error")
+  //   console.log(data);
+  // } );
 
   $scope.createTask = function () {
 
@@ -96,7 +96,7 @@ angular.module('starter.controllers', [])
 })
 .controller('ChoresListCtrl', function($scope, $state, $http, $window) {
     var room = $window.localStorage.getItem('currentRooms');
-    $http.get('http://roomscore.tech:3001/api/tasks/?filter[where][room]='+room+'filter[where][type]=chores').success(function(data) {
+    $http.get('http://roomscore.tech:3001/api/tasks/?filter[where][room]='+room+'&filter[where][type]=chores').success(function(data) {
       $scope.chores = data;
     });
 
@@ -141,7 +141,7 @@ angular.module('starter.controllers', [])
     console.log("In Controller");
 
   var room = $window.localStorage.getItem('currentRooms');
-  $http.get('http://roomscore.tech:3001/api/tasks/?filter[where][room]='+room+'filter[where][type]=shopping').success(function(data) {
+  $http.get('http://roomscore.tech:3001/api/tasks/?filter[where][room]='+room+'&filter[where][type]=shopping').success(function(data) {
     $scope.shopList = data;
   });
 
