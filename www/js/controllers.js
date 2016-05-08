@@ -126,7 +126,7 @@ angular.module('starter.controllers', [])
         { description: 'Cook food', dateDue: 2 }
     ];
 })
-.controller('LoginCtrl', function($scope, $stateParams, $state, $http, $window, md5) {
+.controller('LoginCtrl', function($scope, $stateParams, $state, $http, $window, md5, $ionicPlatform) {
     $scope.loginData = {};
     // Perform the login action when the user submits the login form
     $scope.doLogin = function() {
@@ -144,7 +144,84 @@ angular.module('starter.controllers', [])
 
           $http.get("http://roomscore.tech:3001/api/members/" + data.userId + "?access_token=" + data.id)
             .success( function ( data ) {
+              var push = new Ionic.Push({
+                  "debug": true,
+                  "onNotification": function(notification) {
+                      var payload = notification.payload;
+                      console.log(notification, payload);
+                  },
+                  "onRegister": function(data) {
+                      console.log(data.token);
+                  },
+                  "pluginConfig": {
+                      "ios": {
+                          "badge": true,
+                          "sound": true
+                      },
+                      "android": {
+                          "iconColor": "#343434"
+                      }
+                  } 
+              });
 
+              push.register(function(token) {
+                  // Log out your device token (Save this!)
+                  console.log("Got Token:",token.token);
+                  push.saveToken(token); 
+              });
+//              var push = pushNotification.init({
+//                  "android": {
+//                      "senderID": "139955519511"
+//                  },
+//                  "ios":{},
+//                  "windows": {}
+//              });
+//              push.on('registration', function (data) {
+//                  var device = data.registationID;
+//                  console.log("User ID " + user_id);
+//                  if(user_id) {
+//                      console.log("deviceID " + device);
+//                    $http({
+//                        method: 'POST',
+//                        url:    'https://api.ionic.io/push/notifications',
+//                        headers: {
+//                            'Content-Type': 'application/json',
+//                            'Authorization': 'Bearer ' + jwt
+//                        },
+//                        data: {
+//                            "tokens": tokens,
+//                            "profile": profile,
+//                            "notification": {
+//                                "title": "Hi",
+//                                "message": "Hello world!",
+//                                "android": {
+//                                    "title": "Hey",
+//                                    "message": "Hello Android!"
+//                                },
+//                                "ios": {
+//                                    "title": "Howdy",
+//                                    "message": "Hello iOS!"
+//                                }
+//                            }
+//                        }
+//                    }).success(function (data, status, header,  config) {
+//                        console.log("Successfully registered");
+//                    }).error(function (e) {
+//                        
+//                    });
+//                  } else {
+//                      console.log("Failed" + user_id);
+//                  }
+//                  console.log(JSON.stringify(data));
+//              });
+//              push.on('notification', function (data) {
+//                  console.log("Notif:");
+//                  console.log(JSON.stringify(data));
+//              });
+//              push.on('error', function(data) {
+//                  console.log("Error" + e);
+//                  
+//              });
               $window.localStorage.setItem('currentRooms', data.roomID);
               $state.go('app.dash');
 
@@ -159,12 +236,6 @@ angular.module('starter.controllers', [])
           console.log("Error");
           console.log(data);
         });
-
-        // Simulate a login delay. Remove this and replace with your login
-        // code if using a login system
-        //    $timeout(function() {
-        //      $scope.closeLogin();
-        //    }, 1000);
 
       }
     };

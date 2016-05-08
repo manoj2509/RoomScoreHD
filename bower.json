@@ -6,9 +6,7 @@
     "ngCordova": "^0.1.26-alpha",
     "ionic-service-core": "^0.1.10",
     "ionic-service-push": "^0.1.13",
-    "angular-websocket": "^1.1.0"
-  },
-  "dependencies": {
-    "angular-md5": "^0.1.10"
+    "angular-websocket": "^1.1.0",
+    "ionic-platform-web-client": "^0.7.1"
   }
 }
